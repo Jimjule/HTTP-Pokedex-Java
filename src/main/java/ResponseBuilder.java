@@ -4,6 +4,7 @@ import routes.*;
 import routes.files.HealthCheckHTMLRoute;
 
 import route.Route;
+import routes.structured.text.PokedexResponse;
 
 public class ResponseBuilder {
     public static Response responseHandler(String method, String path, String body, Response response) {
@@ -21,6 +22,11 @@ public class ResponseBuilder {
         if (path.equals("/health-check.html")) {
             HealthCheckHTMLRoute healthCheckHTMLRoute = new HealthCheckHTMLRoute();
             response.setFile(healthCheckHTMLRoute.getFile());
+        } else if (path.contains("/pokemon/id/")) {
+            String id = path.replace("/pokemon/id/", "");
+            PokedexResponse pokedexResponse = new PokedexResponse();
+            pokedexResponse.getPokemon(id);
+            response.setBody(pokedexResponse.getBody());
         } else {
             response.setBody(route.getBody());
         }
@@ -30,12 +36,16 @@ public class ResponseBuilder {
 
     private static boolean checkRouteNotFound(String path, Route route, Response response) {
         if (route == null) {
-            response.setParams(Codes._404.getCode());
-            response.setBody("");
+            setRouteNotFound(response);
             return true;
         }
 
         return false;
+    }
+
+    private static void setRouteNotFound(Response response) {
+        response.setParams(Codes._404.getCode());
+        response.setBody("");
     }
 
     private static String getResponseCode(String method, Route route) {
