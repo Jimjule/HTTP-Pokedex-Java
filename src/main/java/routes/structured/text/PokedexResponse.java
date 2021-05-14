@@ -11,7 +11,7 @@ import java.util.List;
 public class PokedexResponse implements Route {
     private String body;
     private ArrayList<String> headers = new ArrayList<>();
-    private static final List<String> allow = Arrays.asList("GET", "HEAD");
+    private static final List<String> allow = Arrays.asList("GET", "POST", "HEAD");
 
     private HashMap<String, String> pokemon = new HashMap<>();
 
@@ -23,6 +23,14 @@ public class PokedexResponse implements Route {
 
     public void getPokemon(String id) {
         body = pokemon.get(id);
+    }
+
+    public void addPokemon(String id, String body) {
+        pokemon.put(id, body);
+    }
+
+    public boolean pokemonExists(String id) {
+        return pokemon.get(id) != null;
     }
 
     @Override
@@ -47,9 +55,5 @@ public class PokedexResponse implements Route {
     @Override
     public List<String> getAllow() {
         return allow;
-    }
-
-    public boolean pokemonExists(String id) {
-        return pokemon.get(id) != null;
     }
 }

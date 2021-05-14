@@ -11,11 +11,7 @@ public class RouteMatcher {
             if (path.equals("/health-check.html")) {
                 route = new HealthCheckHTMLRoute();
             } else if (path.contains("/pokemon/id/")) {
-                String id = path.replace("/pokemon/id/", "");
-                PokedexResponse pokedexResponse = new PokedexResponse();
-                if(pokedexResponse.pokemonExists(id)) {
-                    route = pokedexResponse;
-                }
+                route = new PokedexResponse();
             }
         } catch (NullPointerException ignore) {
             return null;
