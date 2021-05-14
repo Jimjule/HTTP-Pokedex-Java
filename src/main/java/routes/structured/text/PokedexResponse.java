@@ -5,12 +5,33 @@ import route.Route;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
-public class CharmanderResponse implements Route {
-    private static final String body = "{\"id\":4,\"name\":\"Charmander\"}";
+public class PokedexResponse implements Route {
+    private String body;
     private ArrayList<String> headers = new ArrayList<>();
-    private static final List<String> allow = Arrays.asList("GET", "HEAD");
+    private static final List<String> allow = Arrays.asList("GET", "POST", "HEAD");
+
+    private HashMap<String, String> pokemon = new HashMap<>();
+
+    public PokedexResponse() {
+        pokemon.put("1", "{\"id\":1,\"name\":\"Bulbasaur\"}");
+        pokemon.put("4", "{\"id\":4,\"name\":\"Charmander\"}");
+        pokemon.put("7", "{\"id\":7,\"name\":\"Squirtle\"}");
+    }
+
+    public void getPokemon(String id) {
+        body = pokemon.get(id);
+    }
+
+    public void addPokemon(String id, String body) {
+        pokemon.put(id, body);
+    }
+
+    public boolean pokemonExists(String id) {
+        return pokemon.get(id) != null;
+    }
 
     @Override
     public String getBody() {
