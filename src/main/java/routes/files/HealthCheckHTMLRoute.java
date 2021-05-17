@@ -1,7 +1,8 @@
 package routes.files;
 
-import HTTPServer.route.Route;
-import HTTPServer.constants.Headers;
+import HTTPServer.Response;
+import HTTPServer.Route;
+import HTTPServer.Headers;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -14,6 +15,7 @@ public class HealthCheckHTMLRoute implements Route {
     private static String body = null;
     private ArrayList<String> headers = new ArrayList<>();
     private static final List<String> allow = Arrays.asList("GET", "HEAD");
+    private boolean routeIsFound;
 
     @Override
     public String getBody() {
@@ -55,5 +57,14 @@ public class HealthCheckHTMLRoute implements Route {
     @Override
     public List<String> getAllow() {
         return allow;
+    }
+
+    @Override
+    public void performRequest(String method, Response response, String body, String route) {
+        response.setFile(this.getFile());
+    }
+
+    public boolean getRouteIsFound() {
+        return this.routeIsFound;
     }
 }

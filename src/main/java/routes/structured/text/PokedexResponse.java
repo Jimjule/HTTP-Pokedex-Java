@@ -1,7 +1,8 @@
 package routes.structured.text;
 
+import HTTPServer.Response;
 import HTTPServer.constants.Headers;
-import HTTPServer.route.Route;
+import HTTPServer.Route;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +13,7 @@ public class PokedexResponse implements Route {
     private String body;
     private ArrayList<String> headers = new ArrayList<>();
     private static final List<String> allow = Arrays.asList("GET", "POST", "HEAD");
+    private boolean routeIsFound;
 
     private HashMap<String, String> pokemon = new HashMap<>();
 
@@ -55,5 +57,31 @@ public class PokedexResponse implements Route {
     @Override
     public List<String> getAllow() {
         return allow;
+    }
+
+    @Override
+    public void performRequest(String method, Response response, String body, String path) {
+        String id = path.replace("/pokemon/id/", "");
+        PokedexResponse pokedexResponse = new PokedexResponse();
+        boolean pokemonExists = pokedexResponse.pokemonExists(id);
+
+        if (pokemonExists && method.equals("GET")) {
+            pokedexResponse.getPokemon(id);
+            response.setBody(pokedexResponse.getBody());
+        } else if (!pokemonExists && method.equals("POST")) {
+            pokedexResponse.addPokemon(id, body);
+            pokedexResponse.getPokemon(id);
+            response.setBody(pokedexResponse.getBody());
+        } else {
+            setRouteNotFound(false);
+        }
+    }
+
+    public void setRouteNotFound(boolean isFound) {
+        this.routeIsFound = isFound;
+    }
+
+    public boolean getRouteIsFound() {
+        return this.routeIsFound;
     }
 }
