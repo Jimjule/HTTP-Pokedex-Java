@@ -1,7 +1,7 @@
 package routes.files;
 
-import constants.Headers;
-import route.Route;
+import HTTPServer.route.Route;
+import HTTPServer.constants.Headers;
 
 import java.io.*;
 import java.nio.file.Files;

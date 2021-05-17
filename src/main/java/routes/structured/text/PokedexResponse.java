@@ -1,7 +1,7 @@
 package routes.structured.text;
 
-import constants.Headers;
-import route.Route;
+import HTTPServer.constants.Headers;
+import HTTPServer.route.Route;
 
 import java.util.ArrayList;
 import java.util.Arrays;

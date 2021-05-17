@@ -1,5 +1,6 @@
 import java.io.*;
 import java.net.Socket;
+import HTTPServer.*;
 
 public class ClientHandler extends Thread {
     private Socket clientSocket;
@@ -17,9 +18,9 @@ public class ClientHandler extends Thread {
             out = new ByteArrayOutputStream();
             request = getRequest();
 
-            String parameters = RequestReader.requestHandler(request);
-            String parametersMethod = RequestReader.findRequestMethod(parameters);
-            String parametersPath = RequestReader.findRequestAddress(parameters);
+            String parameters = RequestReader.getRequestParams(request);
+            String parametersMethod = RequestReader.getRequestMethod(parameters);
+            String parametersPath = RequestReader.getRequestAddress(parameters);
 
             String body = RequestReader.getBody(request);
 

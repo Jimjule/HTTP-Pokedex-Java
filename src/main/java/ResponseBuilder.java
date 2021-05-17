@@ -1,9 +1,10 @@
-import constants.Codes;
+import HTTPServer.constants.Codes;
+import HTTPServer.route.Route;
 
 import routes.*;
 import routes.files.HealthCheckHTMLRoute;
 
-import route.Route;
+import HTTPServer.Response;
 import routes.structured.text.PokedexResponse;
 
 public class ResponseBuilder {

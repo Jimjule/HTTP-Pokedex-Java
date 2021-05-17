@@ -1,6 +1,6 @@
 package routes;
 
-import route.Route;
+import HTTPServer.route.Route;
 import routes.files.HealthCheckHTMLRoute;
 import routes.structured.text.PokedexResponse;
 
