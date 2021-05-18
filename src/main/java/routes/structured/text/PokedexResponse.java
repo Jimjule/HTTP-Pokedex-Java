@@ -1,7 +1,7 @@
 package routes.structured.text;
 
 import HTTPServer.Response;
-import HTTPServer.constants.Headers;
+import HTTPServer.Headers;
 import HTTPServer.Route;
 
 import java.util.ArrayList;
@@ -68,17 +68,15 @@ public class PokedexResponse implements Route {
         if (pokemonExists && method.equals("GET")) {
             pokedexResponse.getPokemon(id);
             response.setBody(pokedexResponse.getBody());
+            this.routeIsFound = true;
         } else if (!pokemonExists && method.equals("POST")) {
             pokedexResponse.addPokemon(id, body);
             pokedexResponse.getPokemon(id);
             response.setBody(pokedexResponse.getBody());
+            this.routeIsFound = true;
         } else {
-            setRouteNotFound(false);
+            this.routeIsFound = false;
         }
-    }
-
-    public void setRouteNotFound(boolean isFound) {
-        this.routeIsFound = isFound;
     }
 
     public boolean getRouteIsFound() {

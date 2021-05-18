@@ -62,6 +62,7 @@ public class HealthCheckHTMLRoute implements Route {
     @Override
     public void performRequest(String method, Response response, String body, String route) {
         response.setFile(this.getFile());
+        routeIsFound = true;
     }
 
     public boolean getRouteIsFound() {
