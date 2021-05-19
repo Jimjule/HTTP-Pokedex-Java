@@ -35,7 +35,6 @@ public class ClientHandler extends Thread {
             out.write(response.printFile());
 
             out.writeTo(clientSocket.getOutputStream());
-            out.flush();
             clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
