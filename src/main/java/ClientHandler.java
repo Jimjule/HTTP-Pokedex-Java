@@ -1,5 +1,7 @@
 import java.io.*;
 import java.net.Socket;
+import HTTPServer.*;
+import routes.RouteMatcher;
 
 public class ClientHandler extends Thread {
     private Socket clientSocket;
@@ -17,22 +19,22 @@ public class ClientHandler extends Thread {
             out = new ByteArrayOutputStream();
             request = getRequest();
 
-            String parameters = RequestReader.requestHandler(request);
-            String parametersMethod = RequestReader.findRequestMethod(parameters);
-            String parametersPath = RequestReader.findRequestAddress(parameters);
+            String parameters = RequestReader.getRequestParams(request);
+            String parametersMethod = RequestReader.getRequestMethod(parameters);
+            String parametersPath = RequestReader.getRequestAddress(parameters);
 
             String body = RequestReader.getBody(request);
 
             Response response = new Response();
+            Route route = RouteMatcher.getRoute(parametersPath);
 
-            ResponseBuilder.responseHandler(parametersMethod, parametersPath, body, response);
+            ResponseHelper.responseHandler(parametersMethod, parametersPath, body, response, route);
 
             out.write(response.printHeaders());
             out.write(response.printBody());
             out.write(response.printFile());
 
             out.writeTo(clientSocket.getOutputStream());
-            out.flush();
             clientSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
