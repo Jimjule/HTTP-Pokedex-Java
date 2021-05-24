@@ -1,11 +1,13 @@
 import java.io.IOException;
-import java.net.ServerSocket;
+import HTTPServer.HTTPServer;
+import HTTPServer.Router;
+import routes.RouteMatcher;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         int port = 5001;
-        ServerSocket serverSocket = new ServerSocket(port);
-        HTTPServer httpServer = new HTTPServer(serverSocket);
+        Router router = new RouteMatcher();
+        HTTPServer httpServer = new HTTPServer(port, router);
         httpServer.start();
     }
 }
